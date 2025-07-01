@@ -1,0 +1,14 @@
+{
+  "name": "ba-quiz-calculator",
+  "version": "1.0.0",
+  "description": "BA Quiz Passing Marks Calculator",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}
