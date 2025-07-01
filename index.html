@@ -6,6 +6,7 @@
     <title>BA Quiz Passing Marks Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             background: linear-gradient(to right, #e0f2fe, #c7d2fe);
@@ -128,6 +129,112 @@
             color: #6b7280;
             margin-top: 12px;
         }
+        .wrapper {
+            display: inline-flex;
+            list-style: none;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .wrapper .icon {
+            position: relative;
+            background: #ffffff;
+            border-radius: 50%;
+            padding: 15px;
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .icon a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: #333333;
+        }
+        .wrapper .icon span {
+            color: #333333;
+        }
+        .wrapper .tooltip {
+            position: absolute;
+            top: -50px;
+            font-size: 14px;
+            background: #ffffff;
+            color: #333333;
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .tooltip::before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            width: 8px;
+            background: #ffffff;
+            bottom: -3px;
+            left: 50%;
+            transform: translate(-50%) rotate(45deg);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .wrapper .icon:hover a {
+            color: #ffffff;
+        }
+        .wrapper .icon:hover span,
+        .wrapper .icon:hover .tooltip {
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }
+        .wrapper .linkedin:hover,
+        .wrapper .linkedin:hover .tooltip,
+        .wrapper .linkedin:hover .tooltip::before {
+            background: #0A66C2;
+            color: #ffffff;
+        }
+        .wrapper .instagram:hover,
+        .wrapper .instagram:hover .tooltip,
+        .wrapper .instagram:hover .tooltip::before {
+            background: #E4405F;
+            color: #ffffff;
+        }
+        .wrapper .github:hover,
+        .wrapper .github:hover .tooltip,
+        .wrapper .github:hover .tooltip::before {
+            background: #333333;
+            color: #ffffff;
+        }
+        .wrapper .youtube:hover,
+        .wrapper .youtube:hover .tooltip,
+        .wrapper .youtube:hover .tooltip::before {
+            background: #CD201F;
+            color: #ffffff;
+        }
+        .wrapper .website:hover,
+        .wrapper .website:hover .tooltip,
+        .wrapper .website:hover .tooltip::before {
+            background: #4CAF50;
+            color: #ffffff;
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -154,6 +261,16 @@
             }
             .error, .congrats, .motivation {
                 font-size: 13px;
+            }
+            .wrapper .icon {
+                width: 40px;
+                height: 40px;
+                padding: 12px;
+                font-size: 16px;
+            }
+            .wrapper .tooltip {
+                font-size: 12px;
+                top: -40px;
             }
         }
         @media (max-width: 400px) {
@@ -188,6 +305,16 @@
             .note {
                 font-size: 10px;
             }
+            .wrapper .icon {
+                width: 36px;
+                height: 36px;
+                padding: 10px;
+                font-size: 14px;
+            }
+            .wrapper .tooltip {
+                font-size: 11px;
+                top: -35px;
+            }
         }
         @media (max-width: 320px) {
             .container {
@@ -198,6 +325,16 @@
             }
             input, button {
                 padding: 6px;
+            }
+            .wrapper .icon {
+                width: 32px;
+                height: 32px;
+                padding: 8px;
+                font-size: 12px;
+            }
+            .wrapper .tooltip {
+                font-size: 10px;
+                top: -30px;
             }
         }
     </style>
@@ -305,6 +442,60 @@
                         'p',
                         { className: 'note' },
                         'Note: Submit at least one of Asgn 1 or Asgn 2 and attend the End Term exam to be eligible for a final course grade.'
+                    )
+                ),
+                React.createElement(
+                    'ul',
+                    { className: 'wrapper' },
+                    React.createElement(
+                        'li',
+                        { className: 'icon website' },
+                        React.createElement(
+                            'a',
+                            { href: 'https://mauryahub.onrender.com/', target: '_blank' },
+                            React.createElement('span', { className: 'tooltip' }, 'Website'),
+                            React.createElement('span', null, React.createElement('i', { className: 'fas fa-globe' }))
+                        )
+                    ),
+                    React.createElement(
+                        'li',
+                        { className: 'icon linkedin' },
+                        React.createElement(
+                            'a',
+                            { href: 'https://www.linkedin.com/in/ashish-raj-02a700259/', target: '_blank' },
+                            React.createElement('span', { className: 'tooltip' }, 'LinkedIn'),
+                            React.createElement('span', null, React.createElement('i', { className: 'fab fa-linkedin-in' }))
+                        )
+                    ),
+                    React.createElement(
+                        'li',
+                        { className: 'icon instagram' },
+                        React.createElement(
+                            'a',
+                            { href: 'https://www.instagram.com/ashraj77777', target: '_blank' },
+                            React.createElement('span', { className: 'tooltip' }, 'Instagram'),
+                            React.createElement('span', null, React.createElement('i', { className: 'fab fa-instagram' }))
+                        )
+                    ),
+                    React.createElement(
+                        'li',
+                        { className: 'icon github' },
+                        React.createElement(
+                            'a',
+                            { href: 'https://github.com/22f3000982', target: '_blank' },
+                            React.createElement('span', { className: 'tooltip' }, 'Github'),
+                            React.createElement('span', null, React.createElement('i', { className: 'fab fa-github' }))
+                        )
+                    ),
+                    React.createElement(
+                        'li',
+                        { className: 'icon youtube' },
+                        React.createElement(
+                            'a',
+                            { href: 'https://www.youtube.com/@ashishmaurya7157', target: '_blank' },
+                            React.createElement('span', { className: 'tooltip' }, 'Youtube'),
+                            React.createElement('span', null, React.createElement('i', { className: 'fab fa-youtube' }))
+                        )
                     )
                 )
             );
