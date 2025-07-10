@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BA Quiz Passing Marks Calculator</title>
+    <title>BA Course Grade & Quiz Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -34,6 +34,14 @@
             text-align: center;
             margin-bottom: 16px;
             line-height: 1.2;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e40af;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 16px;
         }
         p.instructions {
             font-size: 16px;
@@ -80,6 +88,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+            margin-top: 10px;
         }
         button:hover {
             background: #2563eb;
@@ -98,7 +107,7 @@
             border-radius: 8px;
             animation: fadeIn 0.5s ease-in;
         }
-        .result h2 {
+        .result h3 {
             font-size: 20px;
             font-weight: 600;
             color: #1f2937;
@@ -111,6 +120,23 @@
         }
         .result p span {
             font-weight: bold;
+        }
+        .grade-S { color: #22c55e; font-weight: bold; }
+        .grade-A { color: #3b82f6; font-weight: bold; }
+        .grade-B { color: #84cc16; font-weight: bold; }
+        .grade-C { color: #f97316; font-weight: bold; }
+        .grade-D { color: #f59e0b; font-weight: bold; }
+        .grade-E { color: #ef4444; font-weight: bold; }
+        .grade-F { color: #dc2626; font-weight: bold; }
+
+        .congrats-msg {
+            color: #16a34a;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.8s ease-in;
         }
         .congrats {
             color: #16a34a;
@@ -128,6 +154,21 @@
             font-size: 12px;
             color: #6b7280;
             margin-top: 12px;
+        }
+        .highlight-score {
+            font-size: 20px;
+            font-weight: bolder;
+            color: #004085;
+        }
+        .highlight-grade {
+            font-size: 22px;
+            font-weight: bolder;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+            margin: 40px 0;
         }
         .wrapper {
             display: inline-flex;
@@ -239,6 +280,36 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .hidden {
+            display: none;
+        }
+        .toggle-button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .toggle-button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            flex: 1;
+            max-width: 250px;
+        }
+        .toggle-button.active {
+            background-color: #1e40afmillimeter
+            color: white;
+        }
+        .toggle-button:hover {
+            background-color: #2563eb;
+        }
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 max-width: 500px;
@@ -247,13 +318,16 @@
             h1 {
                 font-size: 24px;
             }
+            h2 {
+                font-size: 20px;
+            }
             p.instructions {
                 font-size: 14px;
             }
             label, input, button {
                 font-size: 15px;
             }
-            .result h2 {
+            .result h3 {
                 font-size: 18px;
             }
             .result p {
@@ -261,6 +335,15 @@
             }
             .error, .congrats, .motivation {
                 font-size: 13px;
+            }
+            .highlight-score {
+                font-size: 18px;
+            }
+            .highlight-grade {
+                font-size: 20px;
+            }
+            .congrats-msg {
+                font-size: 16px;
             }
             .wrapper .icon {
                 width: 40px;
@@ -272,6 +355,10 @@
                 font-size: 12px;
                 top: -40px;
             }
+            .toggle-button {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
         }
         @media (max-width: 400px) {
             .container {
@@ -280,8 +367,13 @@
             }
             h1 {
                 font-size: calc(5.5vw);
-                min: 20px;
-                max: 24px;
+                min-font-size: 20px;
+                max-font-size: 24px;
+            }
+            h2 {
+                font-size: calc(5vw);
+                min-font-size: 18px;
+                max-font-size: 20px;
             }
             p.instructions {
                 font-size: 13px;
@@ -293,7 +385,7 @@
                 padding: 8px;
                 font-size: 14px;
             }
-            .result h2 {
+            .result h3 {
                 font-size: 17px;
             }
             .result p {
@@ -305,6 +397,15 @@
             .note {
                 font-size: 10px;
             }
+            .highlight-score {
+                font-size: 16px;
+            }
+            .highlight-grade {
+                font-size: 18px;
+            }
+            .congrats-msg {
+                font-size: 14px;
+            }
             .wrapper .icon {
                 width: 36px;
                 height: 36px;
@@ -315,6 +416,10 @@
                 font-size: 11px;
                 top: -35px;
             }
+            .toggle-button {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
         }
         @media (max-width: 320px) {
             .container {
@@ -322,6 +427,9 @@
             }
             h1 {
                 font-size: calc(5vw);
+            }
+            h2 {
+                font-size: calc(4.5vw);
             }
             input, button {
                 padding: 6px;
@@ -342,108 +450,435 @@
 <body>
     <div id="root"></div>
     <script>
-        // Note: In production, bundle with Vite/Webpack to avoid CDN and optimize.
         const { useState } = React;
 
         function App() {
-            const [quiz1, setQuiz1] = useState('');
-            const [result, setResult] = useState(null);
-            const [error, setError] = useState('');
+            // State for Quiz Passing Calculator
+            const [qp_quiz1, setQp_quiz1] = useState('');
+            const [qp_result, setQp_result] = useState(null);
+            const [qp_error, setQp_error] = useState('');
 
-            const calculateMinMarks = () => {
-                setError('');
-                setResult(null);
+            // State for Full Course Grade Calculator
+            const [fg_quiz1, setFg_quiz1] = useState('');
+            const [fg_quiz2, setFg_quiz2] = useState('');
+            const [fg_asgn1, setFg_asgn1] = useState('');
+            const [fg_asgn2, setFg_asgn2] = useState('');
+            const [fg_asgn3, setFg_asgn3] = useState('');
+            const [fg_endTerm, setFg_endTerm] = useState('');
+            const [fg_result, setFg_result] = useState(null);
+            const [fg_error, setFg_error] = useState('');
 
-                const qz1Scaled = parseFloat(quiz1);
+            // State to toggle between calculators
+            const [activeCalculator, setActiveCalculator] = useState('quiz'); // 'quiz' or 'full'
+
+            // --- Quiz Passing Criteria Calculator Logic ---
+            const calculateMinQuizMarks = () => {
+                setQp_error('');
+                setQp_result(null);
+
+                const qz1Scaled = parseFloat(qp_quiz1);
                 if (isNaN(qz1Scaled) || qz1Scaled < 0 || qz1Scaled > 100) {
-                    setError('Please enter a valid Quiz 1 score between 0 and 100.');
+                    setQp_error('Please enter a valid Quiz 1 score between 0 and 100.');
                     return;
                 }
 
-                const qz1 = qz1Scaled / 5; // Convert to original 20-mark scale
-                let qz2;
+                const qz1 = qz1Scaled / 5;
+                let qz2Needed;
+                const targetQz = 7;
 
-                // Lookup table for exact Quiz 2 values from provided table
-                const table = {
-                    0: 10,
-                    10: 9.2,
-                    15: 8.8,
-                    20: 8.4,
-                    25: 8,
-                    30: 7.6,
-                    35: 7,
-                    40: 4.8,
-                    50: 0
-                };
-
-                if (table[qz1Scaled] !== undefined) {
-                    qz2 = table[qz1Scaled];
+                if (qz1 >= targetQz) {
+                    qz2Needed = 0;
                 } else {
-                    // Calculate for other values
-                    const qz2Case1 = (7 - 0.3 * qz1) / 0.7; // Qz2 >= Qz1
-                    const qz2Case2 = (7 - 0.7 * qz1) / 0.3; // Qz1 >= Qz2
-                    qz2 = Math.min(qz2Case1, qz2Case2);
-                    qz2 = Math.max(0, Math.min(20, qz2)); // Cap between 0 and 20
+                    const neededIfQz2IsMax = (targetQz - 0.3 * qz1) / 0.7;
+                    const neededIfQz1IsMax = (targetQz - 0.7 * qz1) / 0.3;
+                    let candidates = [];
+                    if (neededIfQz2IsMax >= qz1) {
+                        candidates.push(neededIfQz2IsMax);
+                    }
+                    if (neededIfQz1IsMax >= 0 && neededIfQz1IsMax <= qz1) {
+                        candidates.push(neededIfQz1IsMax);
+                    }
+                    if (candidates.length === 0) {
+                        qz2Needed = (targetQz - 0.3 * qz1) / 0.7;
+                    } else {
+                        qz2Needed = Math.min(...candidates);
+                    }
                 }
 
-                const qz2Scaled = qz2 * 5; // Scale to 100
-                const endTermScaled = 25; // Fixed at 10/40 * 100
+                qz2Needed = Math.max(0, Math.min(20, qz2Needed));
+                const qp_qz2Scaled = qz2Needed * 5;
+                const qp_endTermScaled = 10 / 40 * 100;
 
-                setResult({ qz2: qz2Scaled, endTerm: endTermScaled });
+                setQp_result({ qz2: qp_qz2Scaled, endTerm: qp_endTermScaled });
+            };
+
+            // --- Full Course Grade Calculator Logic ---
+            const getCongratsMessage = (grade) => {
+                switch (grade) {
+                    case 'S': return '🌟 Stellar performance! You\'ve achieved an outstanding S grade!';
+                    case 'A': return '🎉 Excellent work! An A grade is a fantastic accomplishment!';
+                    case 'B': return '👍 Great job! You earned a solid B grade!';
+                    case 'C': return '👏 Well done! You achieved a C grade.';
+                    case 'D': return '😊 Good effort. You passed with a D grade.';
+                    case 'E': return '😅 You just made it! An E grade means you\'ve successfully cleared the course.';
+                    case 'F': return '😔 Keep your head up! An F grade means you\'ll need to reattempt. Learn from this experience!';
+                    default: return '';
+                }
+            };
+
+            const calculateFullGrade = () => {
+                setFg_error('');
+                setFg_result(null);
+
+                const qz1Val = parseFloat(fg_quiz1);
+                const qz2Val = parseFloat(fg_quiz2);
+                const asgn1Val = fg_asgn1 === '' ? null : parseFloat(fg_asgn1);
+                const asgn2Val = fg_asgn2 === '' ? null : parseFloat(fg_asgn2);
+                const asgn3Val = fg_asgn3 === '' ? null : parseFloat(fg_asgn3);
+                const endTermVal = parseFloat(fg_endTerm);
+
+                const validateScore = (score, max, name, canBeEmpty = false) => {
+                    if (canBeEmpty && (score === null || isNaN(score))) return true;
+                    if (isNaN(score) || score < 0 || score > max) {
+                        setFg_error(`Please enter a valid ${name} score between 0 and ${max}.`);
+                        return false;
+                    }
+                    return true;
+                };
+
+                if (!validateScore(qz1Val, 100, 'Quiz 1')) return;
+                if (!validateScore(qz2Val, 100, 'Quiz 2')) return;
+                if (!validateScore(asgn1Val, 100, 'Assignment 1', true)) return;
+                if (!validateScore(asgn2Val, 100, 'Assignment 2', true)) return;
+                if (!validateScore(asgn3Val, 100, 'Assignment 3', true)) return;
+                if (!validateScore(endTermVal, 100, 'End Term Exam')) return;
+
+                const qz1_orig = qz1Val / 5;
+                const qz2_orig = qz2Val / 5;
+                const asgn1_orig = asgn1Val !== null ? asgn1Val / 5 : null;
+                const asgn2_orig = asgn2Val !== null ? asgn2Val / 5 : null;
+                const asgn3_orig = asgn3Val !== null ? asgn3Val / 5 : null;
+                const endTerm_score_out_of_45 = endTermVal * (45 / 100);
+                const finalExamScore = Math.min(endTerm_score_out_of_45, 40);
+
+                const qzScore = 0.7 * Math.max(qz1_orig, qz2_orig) + 0.3 * Math.min(qz1_orig, qz2_orig);
+                const assignmentScores = [asgn1_orig, asgn2_orig, asgn3_orig].filter(s => s !== null);
+                assignmentScores.sort((a, b) => b - a);
+                let assignmentScore = 0;
+                if (assignmentScores.length >= 2) {
+                    assignmentScore = assignmentScores[0] + assignmentScores[1];
+                } else if (assignmentScores.length === 1) {
+                    assignmentScore = assignmentScores[0];
+                }
+                assignmentScore = Math.min(assignmentScore, 40);
+
+                let finalGrade = 'F';
+                let eligibilityMessage = [];
+                let eligibleForFinalExam = true;
+                let eligibleForCourseGrade = true;
+
+                const asgnEligibility = (asgn1Val !== null && asgn1Val >= 0) || (asgn2Val !== null && asgn2Val >= 0);
+                if (!asgnEligibility) {
+                    eligibleForFinalExam = false;
+                    eligibilityMessage.push("Not eligible for final exam: Must submit at least 1 out of Assignment 1 or Assignment 2.");
+                }
+
+                const quizPassing = qzScore >= 7;
+                if (!quizPassing) {
+                    eligibleForFinalExam = false;
+                    eligibilityMessage.push("Not eligible for final exam: Combined Quiz score (Qz) is less than 7/20.");
+                }
+
+                if (!eligibleForFinalExam) {
+                    setFg_result({
+                        totalScore: null,
+                        grade: 'Fail',
+                        eligibility: eligibilityMessage.join(' '),
+                        qzComputed: qzScore,
+                        aComputed: assignmentScore,
+                        fComputed: finalExamScore,
+                        finalExamEligibility: eligibleForFinalExam,
+                        finalCourseGradeEligibility: false
+                    });
+                    return;
+                }
+
+                const endTermAttended = endTermVal !== null && endTermVal >= 0;
+                const endTermPassing = finalExamScore >= 10;
+
+                if (!endTermAttended || !endTermPassing) {
+                    eligibleForCourseGrade = false;
+                    eligibilityMessage.push("Not eligible for final course grade: Did not attend End Term exam OR End Term score is less than 10/40.");
+                }
+
+                if (!eligibleForCourseGrade) {
+                    setFg_result({
+                        totalScore: null,
+                        grade: 'Fail',
+                        eligibility: eligibilityMessage.join(' '),
+                        qzComputed: qzScore,
+                        aComputed: assignmentScore,
+                        fComputed: finalExamScore,
+                        finalExamEligibility: eligibleForFinalExam,
+                        finalCourseGradeEligibility: eligibleForCourseGrade
+                    });
+                    return;
+                }
+
+                const totalScore = qzScore + assignmentScore + finalExamScore;
+
+                if (totalScore >= 90) {
+                    finalGrade = 'S';
+                } else if (totalScore >= 80) {
+                    finalGrade = 'A';
+                } else if (totalScore >= 70) {
+                    finalGrade = 'B';
+                } else if (totalScore >= 60) {
+                    finalGrade = 'C';
+                } else if (totalScore >= 50) {
+                    finalGrade = 'D';
+                } else if (totalScore >= 40) {
+                    finalGrade = 'E';
+                } else {
+                    finalGrade = 'F';
+                }
+
+                setFg_result({
+                    totalScore: totalScore,
+                    grade: finalGrade,
+                    eligibility: eligibilityMessage.length > 0 ? eligibilityMessage.join(' ') : "All eligibility criteria met!",
+                    qzComputed: qzScore,
+                    aComputed: assignmentScore,
+                    fComputed: finalExamScore,
+                    finalExamEligibility: eligibleForFinalExam,
+                    finalCourseGradeEligibility: eligibleForCourseGrade
+                });
+            };
+
+            const getGradeClass = (grade) => {
+                switch (grade) {
+                    case 'S': return 'grade-S';
+                    case 'A': return 'grade-A';
+                    case 'B': return 'grade-B';
+                    case 'C': return 'grade-C';
+                    case 'D': return 'grade-D';
+                    case 'E': return 'grade-E';
+                    case 'F': return 'grade-F';
+                    case 'Fail': return 'grade-F';
+                    default: return '';
+                }
             };
 
             return React.createElement(
                 'div',
                 { className: 'container' },
-                React.createElement('h1', null, 'BA Quiz Passing Marks Calculator'),
-                React.createElement(
-                    'p',
-                    { className: 'instructions' },
-                    'Enter your Quiz 1 score (out of 100) to find the minimum Quiz 2 score needed to be eligible for the Business Analytics final exam. You must also submit at least one of the first two assignments.'
-                ),
+                React.createElement('h1', null, 'Business Analytics Course Grade Calculator'),
                 React.createElement(
                     'div',
-                    { className: 'input-group' },
-                    React.createElement('label', { htmlFor: 'quiz1' }, 'Quiz 1 Score (0–100):'),
-                    React.createElement('input', {
-                        type: 'number',
-                        id: 'quiz1',
-                        value: quiz1,
-                        onChange: (e) => setQuiz1(e.target.value),
-                        min: '0',
-                        max: '100',
-                        step: '0.1',
-                        placeholder: 'e.g., 75'
-                    })
-                ),
-                React.createElement(
-                    'button',
-                    { onClick: calculateMinMarks },
-                    'Calculate Minimum Marks'
-                ),
-                error && React.createElement('p', { className: 'error' }, error),
-                result && React.createElement(
-                    'div',
-                    { className: 'result' },
-                    result.qz2 === 0 && React.createElement(
-                        'p',
-                        { className: 'congrats' },
-                        '🎉 Congratulations! Your Quiz 1 score is sufficient to meet the quiz requirement!'
-                    ),
-                    quiz1 < 20 && React.createElement(
-                        'p',
-                        { className: 'motivation' },
-                        '💪 Your Quiz 1 score is low, but don’t worry! Study hard for Quiz 2 and the End Term to secure your eligibility.'
-                    ),
-                    React.createElement('h2', null, 'Minimum Marks Required:'),
-                    React.createElement('p', null, 'Quiz 2: ', React.createElement('span', null, result.qz2.toFixed(1), ' / 100')),
-                    React.createElement('p', null, 'End Term: ', React.createElement('span', null, result.endTerm, ' / 100')),
+                    { className: 'toggle-button-container' },
                     React.createElement(
-                        'p',
-                        { className: 'note' },
-                        'Note: Submit at least one of Asgn 1 or Asgn 2 and attend the End Term exam to be eligible for a final course grade.'
+                        'button',
+                        {
+                            onClick: () => setActiveCalculator('quiz'),
+                            className: `toggle-button ${activeCalculator === 'quiz' ? 'active' : ''}`
+                        },
+                        'Quiz Passing Criteria Calculator'
+                    ),
+                    React.createElement(
+                        'button',
+                        {
+                            onClick: () => setActiveCalculator('full'),
+                            className: `toggle-button ${activeCalculator === 'full' ? 'active' : ''}`
+                        },
+                        'Full Course Grade Calculator'
                     )
                 ),
+
+                // --- Quiz Passing Criteria Calculator Section ---
+                React.createElement(
+                    'div',
+                    { className: activeCalculator === 'quiz' ? '' : 'hidden' },
+                    React.createElement('h2', null, 'Quiz Passing Criteria Calculator'),
+                    React.createElement(
+                        'p',
+                        { className: 'instructions' },
+                        'Enter your Quiz 1 score (out of 100) to find the minimum Quiz 2 score needed to be eligible for the final exam (Qz >= 7/20).'
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'qp_quiz1' }, 'Quiz 1 Score (0–100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'qp_quiz1',
+                            value: qp_quiz1,
+                            onChange: (e) => setQp_quiz1(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 75'
+                        })
+                    ),
+                    React.createElement(
+                        'button',
+                        { onClick: calculateMinQuizMarks },
+                        'Calculate Minimum Quiz 2 Marks'
+                    ),
+                    qp_error && React.createElement('p', { className: 'error' }, qp_error),
+                    qp_result && React.createElement(
+                        'div',
+                        { className: 'result' },
+                        qp_result.qz2 === 0 && React.createElement(
+                            'p',
+                            { className: 'congrats' },
+                            '🎉 Congratulations! Your Quiz 1 score is sufficient to meet the quiz requirement!'
+                        ),
+                        qp_quiz1 < 35 && React.createElement(
+                            'p',
+                            { className: 'motivation' },
+                            '💪 Your Quiz 1 score is low. Study hard for Quiz 2 to secure your eligibility.'
+                        ),
+                        React.createElement('h3', null, 'Minimum Marks Required:'),
+                        React.createElement('p', null, 'Minimum Quiz 2 Score: ', React.createElement('span', null, qp_result.qz2.toFixed(1), ' / 100')),
+                        React.createElement('p', null, 'Minimum End Term Score: ', React.createElement('span', null, qp_result.endTerm, ' / 100 (for course grade eligibility)')),
+                        React.createElement(
+                            'p',
+                            { className: 'note' },
+                            'Note: This is for quiz eligibility only. You also need to submit at least one of Asgn 1 or Asgn 2 and attend the End Term exam to be eligible for a final course grade.'
+                        )
+                    )
+                ),
+
+                // --- Full Course Grade Calculator Section ---
+                React.createElement(
+                    'div',
+                    { className: activeCalculator === 'full' ? '' : 'hidden' },
+                    React.createElement('h2', null, 'Full Course Grade Calculator'),
+                    React.createElement(
+                        'p',
+                        { className: 'instructions' },
+                        'Enter all your scores (out of 100) to calculate your final course score and letter grade.'
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'fg_quiz1' }, 'Quiz 1 Score (0-100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'fg_quiz1',
+                            value: fg_quiz1,
+                            onChange: (e) => setFg_quiz1(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 75'
+                        })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'fg_quiz2' }, 'Quiz 2 Score (0-100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'fg_quiz2',
+                            value: fg_quiz2,
+                            onChange: (e) => setFg_quiz2(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 80'
+                        })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'fg_asgn1' }, 'Assignment 1 Score (0-100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'fg_asgn1',
+                            value: fg_asgn1,
+                            onChange: (e) => setFg_asgn1(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 85 (leave empty if not submitted)'
+                        })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'fg_asgn2' }, 'Assignment 2 Score (0-100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'fg_asgn2',
+                            value: fg_asgn2,
+                            onChange: (e) => setFg_asgn2(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 90 (leave empty if not submitted)'
+                        })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'fg_asgn3' }, 'Assignment 3 Score (0-100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'fg_asgn3',
+                            value: fg_asgn3,
+                            onChange: (e) => setFg_asgn3(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 78 (leave empty if not submitted)'
+                        })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        React.createElement('label', { htmlFor: 'fg_endTerm' }, 'End Term Exam Score (0-100):'),
+                        React.createElement('input', {
+                            type: 'number',
+                            id: 'fg_endTerm',
+                            value: fg_endTerm,
+                            onChange: (e) => setFg_endTerm(e.target.value),
+                            min: '0',
+                            max: '100',
+                            step: '0.1',
+                            placeholder: 'e.g., 70'
+                        })
+                    ),
+                    React.createElement(
+                        'button',
+                        { onClick: calculateFullGrade },
+                        'Calculate Final Course Grade'
+                    ),
+                    fg_error && React.createElement('p', { className: 'error' }, fg_error),
+                    fg_result && React.createElement(
+                        'div',
+                        { className: 'result' },
+                        fg_result.totalScore !== null && React.createElement(
+                            'p',
+                            { className: 'congrats-msg' },
+                            getCongratsMessage(fg_result.grade)
+                        ),
+                        React.createElement('h3', null, 'Final Grade Results:'),
+                        React.createElement('p', null, 'Scaled Quiz Score (Qz): ', React.createElement('span', null, (fg_result.qzComputed * 5).toFixed(2), ' / 100')),
+                        React.createElement('p', null, 'Scaled Assignment Score (A): ', React.createElement('span', null, (fg_result.aComputed * 100 / 40).toFixed(2), ' / 100')),
+                        React.createElement('p', null, 'Scaled End Term Score (F): ', React.createElement('span', null, (fg_result.fComputed * 100 / 40).toFixed(2), ' / 100')),
+                        fg_result.totalScore !== null && React.createElement('p', null, 'Total Course Score: ', React.createElement('span', { className: 'highlight-score' }, Math.ceil(fg_result.totalScore), ' / 100')),
+                        React.createElement('p', null, 'Eligibility Status: ', React.createElement('span', null, fg_result.eligibility)),
+                        fg_result.grade && React.createElement('p', null, 'Final Grade: ', React.createElement('span', { className: getGradeClass(fg_result.grade) + ' highlight-grade' }, fg_result.grade)),
+                        React.createElement(
+                            'p',
+                            { className: 'note' },
+                            'Your final course grade is based on meeting all eligibility criteria and the total weighted score.'
+                        )
+                    )
+                ),
+
+                React.createElement('hr'),
                 React.createElement(
                     'ul',
                     { className: 'wrapper' },
