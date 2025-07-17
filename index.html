@@ -128,7 +128,6 @@
         .grade-D { color: #f59e0b; font-weight: bold; }
         .grade-E { color: #ef4444; font-weight: bold; }
         .grade-F { color: #dc2626; font-weight: bold; }
-
         .congrats-msg {
             color: #16a34a;
             font-size: 18px;
@@ -303,13 +302,12 @@
             max-width: 250px;
         }
         .toggle-button.active {
-            background-color: #1e40afmillimeter
+            background-color: #1e40af;
             color: white;
         }
         .toggle-button:hover {
             background-color: #2563eb;
         }
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 max-width: 500px;
@@ -366,14 +364,10 @@
                 padding: 16px;
             }
             h1 {
-                font-size: calc(5.5vw);
-                min-font-size: 20px;
-                max-font-size: 24px;
+                font-size: 24px;
             }
             h2 {
-                font-size: calc(5vw);
-                min-font-size: 18px;
-                max-font-size: 20px;
+                font-size: 20px;
             }
             p.instructions {
                 font-size: 13px;
@@ -426,10 +420,10 @@
                 padding: 12px;
             }
             h1 {
-                font-size: calc(5vw);
+                font-size: 20px;
             }
             h2 {
-                font-size: calc(4.5vw);
+                font-size: 18px;
             }
             input, button {
                 padding: 6px;
@@ -469,7 +463,7 @@
             const [fg_error, setFg_error] = useState('');
 
             // State to toggle between calculators
-            const [activeCalculator, setActiveCalculator] = useState('quiz'); // 'quiz' or 'full'
+            const [activeCalculator, setActiveCalculator] = useState('quiz');
 
             // --- Quiz Passing Criteria Calculator Logic ---
             const calculateMinQuizMarks = () => {
@@ -477,39 +471,33 @@
                 setQp_result(null);
 
                 const qz1Scaled = parseFloat(qp_quiz1);
+
+                // Validate input
                 if (isNaN(qz1Scaled) || qz1Scaled < 0 || qz1Scaled > 100) {
                     setQp_error('Please enter a valid Quiz 1 score between 0 and 100.');
                     return;
                 }
 
-                const qz1 = qz1Scaled / 5;
+                const qz1 = qz1Scaled / 5; // Convert to out of 20
+                const targetQz = 7; // Minimum required Qz score
                 let qz2Needed;
-                const targetQz = 7;
 
-                if (qz1 >= targetQz) {
-                    qz2Needed = 0;
-                } else {
-                    const neededIfQz2IsMax = (targetQz - 0.3 * qz1) / 0.7;
-                    const neededIfQz1IsMax = (targetQz - 0.7 * qz1) / 0.3;
-                    let candidates = [];
-                    if (neededIfQz2IsMax >= qz1) {
-                        candidates.push(neededIfQz2IsMax);
-                    }
-                    if (neededIfQz1IsMax >= 0 && neededIfQz1IsMax <= qz1) {
-                        candidates.push(neededIfQz1IsMax);
-                    }
-                    if (candidates.length === 0) {
-                        qz2Needed = (targetQz - 0.3 * qz1) / 0.7;
-                    } else {
-                        qz2Needed = Math.min(...candidates);
-                    }
-                }
+                // Calculate required Quiz 2 score
+                // Qz = 0.7*Max(Qz1, Qz2) + 0.3*Min(Qz1, Qz2) >= 7
+                // If Qz1 >= Qz2: 0.7*Qz1 + 0.3*Qz2 >= 7
+                // If Qz2 >= Qz1: 0.7*Qz2 + 0.3*Qz1 >= 7
+                const qz2IfLower = (targetQz - 0.7 * qz1) / 0.3; // Qz1 is max
+                const qz2IfHigher = (targetQz - 0.3 * qz1) / 0.7; // Qz2 is max
+                qz2Needed = Math.min(qz2IfLower, qz2IfHigher); // Take the minimum to satisfy the condition
 
-                qz2Needed = Math.max(0, Math.min(20, qz2Needed));
-                const qp_qz2Scaled = qz2Needed * 5;
-                const qp_endTermScaled = 10 / 40 * 100;
+                qz2Needed = Math.max(0, Math.min(20, qz2Needed)); // Ensure within 0-20
+                const qz2Scaled = qz2Needed * 5; // Convert back to out of 100
+                const endTermScaled = 10 / 40 * 100; // Minimum end term score for course grade eligibility
 
-                setQp_result({ qz2: qp_qz2Scaled, endTerm: qp_endTermScaled });
+                setQp_result({
+                    qz2: qz2Scaled,
+                    endTerm: endTermScaled
+                });
             };
 
             // --- Full Course Grade Calculator Logic ---
@@ -577,10 +565,10 @@
                 let eligibleForFinalExam = true;
                 let eligibleForCourseGrade = true;
 
-                const asgnEligibility = (asgn1Val !== null && asgn1Val >= 0) || (asgn2Val !== null && asgn2Val >= 0);
+                const asgnEligibility = asgn1Val !== null || asgn2Val !== null;
                 if (!asgnEligibility) {
                     eligibleForFinalExam = false;
-                    eligibilityMessage.push("Not eligible for final exam: Must submit at least 1 out of Assignment 1 or Assignment 2.");
+                    eligibilityMessage.push("Not eligible for final exam: Must submit at least one of Assignment 1 or Assignment 2.");
                 }
 
                 const quizPassing = qzScore >= 7;
@@ -603,12 +591,12 @@
                     return;
                 }
 
-                const endTermAttended = endTermVal !== null && endTermVal >= 0;
+                const endTermAttended = endTermVal !== null && !isNaN(endTermVal);
                 const endTermPassing = finalExamScore >= 10;
 
                 if (!endTermAttended || !endTermPassing) {
                     eligibleForCourseGrade = false;
-                    eligibilityMessage.push("Not eligible for final course grade: Did not attend End Term exam OR End Term score is less than 10/40.");
+                    eligibilityMessage.push("Not eligible for final course grade: Did not attend End Term exam or End Term score is less than 10/40.");
                 }
 
                 if (!eligibleForCourseGrade) {
@@ -739,12 +727,12 @@
                             '💪 Your Quiz 1 score is low. Study hard for Quiz 2 to secure your eligibility.'
                         ),
                         React.createElement('h3', null, 'Minimum Marks Required:'),
-                        React.createElement('p', null, 'Minimum Quiz 2 Score: ', React.createElement('span', null, qp_result.qz2.toFixed(1), ' / 100')),
-                        React.createElement('p', null, 'Minimum End Term Score: ', React.createElement('span', null, qp_result.endTerm, ' / 100 (for course grade eligibility)')),
+                        React.createElement('p', null, 'Minimum Quiz 2 Score: ', React.createElement('span', null, Math.ceil(qp_result.qz2), ' / 100')),
+                        React.createElement('p', null, 'Minimum End Term Score: ', React.createElement('span', null, qp_result.endTerm.toFixed(1), ' / 100 (for course grade eligibility)')),
                         React.createElement(
                             'p',
                             { className: 'note' },
-                            'Note: This is for quiz eligibility only. You also need to submit at least one of Asgn 1 or Asgn 2 and attend the End Term exam to be eligible for a final course grade.'
+                            'Note: You must also submit at least one of Assignment 1 or Assignment 2 and attend the End Term exam with a score of at least 10/40 to be eligible for a final course grade.'
                         )
                     )
                 ),
