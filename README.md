@@ -32,7 +32,12 @@ There are two quizzes (Quiz 1 and Quiz 2), each marked out of 100. The scores ar
 
 The final quiz score (Qz) is a weighted average that gives more weight to your better performance.
 The formula is:
-$$ \text{Qz} = (0.7 \times \text{Max}(\text{Qz1}_{\text{scaled}}, \text{Qz2}_{\text{scaled}})) + (0.3 \times \text{Min}(\text{Qz1}_{\text{scaled}}, \text{Qz2}_{\text{scaled}})) $$
+
+**Qz = (0.7 × Max(Qz1_scaled, Qz2_scaled)) + (0.3 × Min(Qz1_scaled, Qz2_scaled))**
+
+Where:
+- Qz1_scaled = Quiz 1 score ÷ 5
+- Qz2_scaled = Quiz 2 score ÷ 5
 
 ### 3. Assignments (A) - 40 points
 
@@ -47,8 +52,10 @@ The maximum possible score for this component is **capped at 40 points**.
 
 ### 4. End Term Exam (F) - 40 points
 
-The End Term Exam is marked out of 100. The score is first scaled to be out of 45.
-$$ \text{Scaled Score} = \text{Your Score}_{\text{/100}} \times 0.45 $$
+The End Term Exam is marked out of 100. The score is first scaled to be out of 45 using this formula:
+
+**Scaled Score = Your Score (out of 100) × 0.45**
+
 The final score for this component (F) is **capped at a maximum of 40 points**.
 
 ### 5. Eligibility Criteria 🛑
@@ -72,7 +79,9 @@ You must meet specific criteria to be eligible for the final exam and to receive
 ### 6. Final Score and Grade
 
 If all eligibility criteria are met, your total score is calculated as:
-$$ \text{Total Score} = \text{Qz} + \text{A} + \text{F} $$
+
+**Total Score = Qz + A + F**
+
 This total score (out of 100) is then mapped to a letter grade as follows:
 
 | Total Score | Grade |
